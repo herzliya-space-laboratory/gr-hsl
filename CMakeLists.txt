@@ -94,13 +94,6 @@ if(NOT Boost_FOUND)
 endif()
 
 ########################################################################
-# Submodule
-########################################################################
-include(ExternalProject)
-ExternalProject_Add(gr-satellites
-    GIT_REPOSITORY https://github.com/herzliya-space-laboratory/gr-satellites.git
-    )
-########################################################################
 # Install directories
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
@@ -221,3 +214,19 @@ endif(NOT CMAKE_MODULES_DIR)
 install(FILES cmake/Modules/hslConfig.cmake
     DESTINATION ${CMAKE_MODULES_DIR}/hsl
 )
+
+########################################################################
+# Submodule
+########################################################################
+include(ExternalProject)
+ExternalProject_Add(gr-satellites
+    GIT_REPOSITORY https://github.com/herzliya-space-laboratory/gr-satellites.git
+    BUILD_COMMAND ${CMAKE_MAKE_PROGRAM}
+    INSTALL_COMMAND ""
+    )
+
+ExternalProject_Add(gr-satnogs
+    GIT_REPOSITORY https://gitlab.com/librespacefoundation/satnogs/gr-satnogs.git
+    BUILD_COMMAND ${CMAKE_MAKE_PROGRAM}
+    INSTALL_COMMAND ""
+    )
