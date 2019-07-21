@@ -1,0 +1,7 @@
+/*!
+ * \defgroup block GNU Radio HSL C++ Signal Processing Blocks
+ * \brief All C++ blocks that can be used from the HSL GNU Radio
+ *        module are listed here or in the subcategories below.
+ *
+ */
+
