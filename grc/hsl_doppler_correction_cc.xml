@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<block>
+  <name>Doppler Correction</name>
+  <key>hsl_doppler_correction_cc</key>
+  <category>[hsl]</category>
+  <import>import hsl</import>
+  <make>hsl.doppler_correction_cc(base_freq=$base_freq, port=$port, samp_rate=$samp_rate)</make>
+  <callback>set_port($port)</callback>
+  <callback>set_samp_rate($samp_rate)</callback>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>Base Frequency</name>
+    <key>base_freq</key>
+    <value>0</value>
+    <type>float</type>
+  </param>
+  
+  <param>
+    <name>Rigctl Port (TCP)</name>
+    <key>port</key>
+    <value>52001</value>
+    <type>int</type>
+  </param>
+
+  <param>
+    <name>Sample Rate</name>
+    <key>samp_rate</key>
+    <value>48000</value>
+    <type>float</type>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>signal</name>
+    <type>complex<!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>corrected_signal</name>
+    <type>complex<!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+  </source>
+</block>

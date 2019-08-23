@@ -47,7 +47,7 @@ class parse_rigctl(gr.sync_block):
     def handle_rigctl(self, msg_pmt):
         msg = pmt.cdr(msg_pmt)
         x = pmt.u8vector_elements(msg)
-        if not chr(x[0]) is 'F':
+        if (chr(x[0]) is not 'F') and (chr(x[0]) is not 'f'):
             print "[ERROR] Not rigctl message."
             print "Example: F 145970000"
             return
@@ -57,6 +57,11 @@ class parse_rigctl(gr.sync_block):
         message_freq = int(string[2:])
         self.message_port_pub(pmt.intern('freq'), pmt.from_double(message_freq-self.base_freq))
 
+    def get_base_freq(self):
+        return self.base_freq
+
+    def set_base_freq(self, base_freq):
+        self.base_freq = base_freq
 
     def work(self, input_items, output_items):
         pass

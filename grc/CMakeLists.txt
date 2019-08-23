@@ -19,5 +19,6 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    hsl_parse_rigctl.xml DESTINATION share/gnuradio/grc/blocks
+    hsl_parse_rigctl.xml
+    hsl_doppler_correction_cc.xml DESTINATION share/gnuradio/grc/blocks
 )
