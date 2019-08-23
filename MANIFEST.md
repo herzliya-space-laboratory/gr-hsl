@@ -3,7 +3,7 @@ brief: Short description of gr-hsl
 tags: # Tags are arbitrary, but look at CGRAN what other authors are using
   - sdr
 author:
-  - Author Name <authors@email.address>
+  - Ido Bronfeld <idobronfeld@gmail.com>
 copyright_owner:
   - Copyright Owner 1
 license:

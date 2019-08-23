@@ -31,4 +31,5 @@ except ImportError:
 	pass
 
 # import any pure python here
+from parse_rigctl import parse_rigctl
 #
