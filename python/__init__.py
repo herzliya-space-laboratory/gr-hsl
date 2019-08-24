@@ -33,4 +33,5 @@ except ImportError:
 # import any pure python here
 from parse_rigctl import parse_rigctl
 from doppler_correction_cc import doppler_correction_cc
+from ptt_cc import ptt_cc
 #
