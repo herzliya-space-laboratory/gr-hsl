@@ -23,7 +23,7 @@ import numpy
 import pmt
 from gnuradio import gr
 
-class parse_rigctl(gr.sync_block):
+class parse_rigctl(gr.basic_block):
     """
     This block parses a rigctl message (usually from Socket PDU).
     Output is the frequency in the message.
@@ -33,7 +33,7 @@ class parse_rigctl(gr.sync_block):
     This is meant to control a Signal Source for doppler correction.
     """
     def __init__(self, base_freq=0):
-        gr.sync_block.__init__(self,
+        gr.basic_block.__init__(self,
             name="parse_rigctl",
             in_sig=None,
             out_sig=None)
@@ -62,7 +62,3 @@ class parse_rigctl(gr.sync_block):
 
     def set_base_freq(self, base_freq):
         self.base_freq = base_freq
-
-    def work(self, input_items, output_items):
-        pass
-
