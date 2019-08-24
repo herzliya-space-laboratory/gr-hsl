@@ -34,7 +34,8 @@ GR_PYTHON_INSTALL(
     __init__.py
     parse_rigctl.py
     doppler_correction_cc.py
-    ptt_cc.py DESTINATION ${GR_PYTHON_DIR}/hsl
+    ptt_cc.py
+    kiss_encoder.py DESTINATION ${GR_PYTHON_DIR}/hsl
 )
 
 ########################################################################
@@ -47,3 +48,4 @@ set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/swig)
 GR_ADD_TEST(qa_parse_rigctl ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_parse_rigctl.py)
 GR_ADD_TEST(qa_doppler_correction_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_doppler_correction_cc.py)
 GR_ADD_TEST(qa_ptt_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_ptt_cc.py)
+GR_ADD_TEST(qa_kiss_encoder ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_kiss_encoder.py)
