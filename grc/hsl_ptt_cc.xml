@@ -2,7 +2,7 @@
 <block>
   <name>Push To Talk</name>
   <key>hsl_ptt_cc</key>
-  <category>[hsl]</category>
+  <category>[HSL]</category>
   <import>import hsl</import>
   <make>hsl.ptt_cc()</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

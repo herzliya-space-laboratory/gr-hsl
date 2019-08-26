@@ -2,7 +2,7 @@
 <block>
   <name>BPSK AX.25</name>
   <key>hsl_bpsk_ax25</key>
-  <category>[hsl]</category>
+  <category>[HSL]/Modulators</category>
   <import>import hsl</import>
   <make>hsl.bpsk_ax25(
     baudrate=$baudrate,
@@ -32,48 +32,48 @@
     <key>baudrate</key>
     <value>9600</value>
     <type>raw</type>
-    <hide>none</hide>
+    <hide>int</hide>
   </param>
   <param>
     <name>Costas Loop Bandwidth</name>
     <key>costas_loop_bw</key>
     <value>2*math.pi/200</value>
-    <type>raw</type>
+    <type>float</type>
     <hide>none</hide>
   </param>
   <param>
     <name>Excess Bandwidth</name>
     <key>excess_bw</key>
     <value>0.5</value>
-    <type>raw</type>
+    <type>float</type>
     <hide>none</hide>
   </param>
   <param>
     <name>FLL Loop Bandwidth</name>
     <key>fll_loop_bw</key>
     <value>2*math.pi/350</value>
-    <type>raw</type>
+    <type>float</type>
     <hide>none</hide>
   </param>
   <param>
     <name>Maximum Carrier Offset</name>
     <key>max_cfo</key>
     <value>4e3</value>
-    <type>raw</type>
+    <type>float</type>
     <hide>none</hide>
   </param>
   <param>
     <name>Sample Rate</name>
     <key>rf_samp_rate</key>
     <value>2.4e6</value>
-    <type>raw</type>
+    <type>float</type>
     <hide>none</hide>
   </param>
   <param>
     <name>Symbol Sync Loop Bandwidth</name>
     <key>symbol_Sync_loop_bw</key>
     <value>2*math.pi/100</value>
-    <type>raw</type>
+    <type>float</type>
     <hide>none</hide>
   </param>
 

@@ -2,7 +2,7 @@
 <block>
   <name>Doppler Correction</name>
   <key>hsl_doppler_correction_cc</key>
-  <category>[hsl]</category>
+  <category>[HSL]</category>
   <import>import hsl</import>
   <make>hsl.doppler_correction_cc(base_freq=$base_freq, port=$port, samp_rate=$samp_rate)</make>
   <callback>set_port($port)</callback>

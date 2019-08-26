@@ -2,7 +2,7 @@
 <block>
   <name>KISS Encoder</name>
   <key>hsl_kiss_encoder</key>
-  <category>[hsl]</category>
+  <category>[HSL]/Encoders</category>
   <import>import hsl</import>
   <make>hsl.kiss_encoder()</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

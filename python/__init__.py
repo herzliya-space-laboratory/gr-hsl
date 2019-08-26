@@ -37,4 +37,5 @@ from ptt_cc import ptt_cc
 from kiss_encoder import kiss_encoder
 from rms_agc import rms_agc
 from bpsk_ax25 import bpsk_ax25
+from afsk_ax25 import afsk_ax25
 #

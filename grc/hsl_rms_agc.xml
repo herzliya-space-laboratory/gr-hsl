@@ -2,7 +2,7 @@
 <block>
   <name>RMS AGC</name>
   <key>hsl_rms_agc</key>
-  <category>[hsl]</category>
+  <category>[HSL]</category>
   <import>import hsl</import>
   <make>hsl.rms_agc(alpha=$alpha, reference=$reference, )</make>
 

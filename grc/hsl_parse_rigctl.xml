@@ -2,7 +2,7 @@
 <block>
   <name>Parse Rigctl</name>
   <key>hsl_parse_rigctl</key>
-  <category>[hsl]</category>
+  <category>[HSL]</category>
   <import>import hsl</import>
   <import>import pmt</import>
   <make>hsl.parse_rigctl($base_freq)</make>
