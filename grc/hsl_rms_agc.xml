@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<block>
+  <name>RMS AGC</name>
+  <key>hsl_rms_agc</key>
+  <category>[hsl]</category>
+  <import>import hsl</import>
+  <make>hsl.rms_agc(alpha=$alpha, reference=$reference, )</make>
+
+  <callback>set_alpha($alpha)</callback>
+  <callback>set_reference($reference)</callback>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>Alpha</name>
+    <key>alpha</key>
+    <value>1e-2</value>
+    <type>raw</type>
+  </param>
+
+  <param>
+    <name>Reference</name>
+    <key>reference</key>
+    <value>0.5</value>
+    <type>raw</type>
+  </param>
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>in</name>
+    <type>complex<!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>out</name>
+    <type>complex<!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+  </source>
+</block>
