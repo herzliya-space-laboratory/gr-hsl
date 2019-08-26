@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<block>
+  <name>BPSK AX.25</name>
+  <key>hsl_bpsk_ax25</key>
+  <category>[hsl]</category>
+  <import>import hsl</import>
+  <make>hsl.bpsk_ax25(
+    baudrate=$baudrate,
+    costas_loop_bw=$costas_loop_bw,
+    excess_bw=$excess_bw,
+    fll_loop_bw=$fll_loop_bw,
+    max_cfo=$max_cfo,
+    rf_samp_rate=$rf_samp_rate,
+    symbol_Sync_loop_bw=$symbol_Sync_loop_bw,
+  )</make>
+
+  <callback>set_baudrate($baudrate)</callback>
+  <callback>set_costas_loop_bw($costas_loop_bw)</callback>
+  <callback>set_excess_bw($excess_bw)</callback>
+  <callback>set_fll_loop_bw($fll_loop_bw)</callback>
+  <callback>set_max_cfo($max_cfo)</callback>
+  <callback>set_rf_samp_rate($rf_samp_rate)</callback>
+  <callback>set_symbol_Sync_loop_bw($symbol_Sync_loop_bw)</callback>
+
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>Baud Rate</name>
+    <key>baudrate</key>
+    <value>9600</value>
+    <type>raw</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>Costas Loop Bandwidth</name>
+    <key>costas_loop_bw</key>
+    <value>2*math.pi/200</value>
+    <type>raw</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>Excess Bandwidth</name>
+    <key>excess_bw</key>
+    <value>0.5</value>
+    <type>raw</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>FLL Loop Bandwidth</name>
+    <key>fll_loop_bw</key>
+    <value>2*math.pi/350</value>
+    <type>raw</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>Maximum Carrier Offset</name>
+    <key>max_cfo</key>
+    <value>4e3</value>
+    <type>raw</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>Sample Rate</name>
+    <key>rf_samp_rate</key>
+    <value>2.4e6</value>
+    <type>raw</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>Symbol Sync Loop Bandwidth</name>
+    <key>symbol_Sync_loop_bw</key>
+    <value>2*math.pi/100</value>
+    <type>raw</type>
+    <hide>none</hide>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>in</name>
+    <type>complex<!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+  <source>
+    <name>clock</name>
+    <type>complex</type>
+    <vlen>1</vlen>
+    <optional>1</optional>
+  </source>
+  <source>
+    <name>costas</name>
+    <type>complex</type>
+    <vlen>1</vlen>
+    <optional>1</optional>
+  </source>
+  <source>
+    <name>fll</name>
+    <type>complex</type>
+    <vlen>1</vlen>
+    <optional>1</optional>
+  </source>
+</block>

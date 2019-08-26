@@ -36,7 +36,8 @@ GR_PYTHON_INSTALL(
     doppler_correction_cc.py
     ptt_cc.py
     kiss_encoder.py
-    rms_agc.py DESTINATION ${GR_PYTHON_DIR}/hsl
+    rms_agc.py
+    bpsk_ax25.py DESTINATION ${GR_PYTHON_DIR}/hsl
 )
 
 ########################################################################
@@ -51,3 +52,4 @@ GR_ADD_TEST(qa_doppler_correction_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE
 GR_ADD_TEST(qa_ptt_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_ptt_cc.py)
 GR_ADD_TEST(qa_kiss_encoder ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_kiss_encoder.py)
 GR_ADD_TEST(qa_rms_agc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_rms_agc.py)
+GR_ADD_TEST(qa_bpsk_ax25 ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_bpsk_ax25.py)

@@ -23,5 +23,6 @@ install(FILES
     hsl_doppler_correction_cc.xml
     hsl_ptt_cc.xml
     hsl_kiss_encoder.xml
-    hsl_rms_agc.xml DESTINATION share/gnuradio/grc/blocks
+    hsl_rms_agc.xml
+    hsl_bpsk_ax25.xml DESTINATION share/gnuradio/grc/blocks
 )

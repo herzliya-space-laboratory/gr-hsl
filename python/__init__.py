@@ -36,4 +36,5 @@ from doppler_correction_cc import doppler_correction_cc
 from ptt_cc import ptt_cc
 from kiss_encoder import kiss_encoder
 from rms_agc import rms_agc
+from bpsk_ax25 import bpsk_ax25
 #
