@@ -25,6 +25,7 @@ from gnuradio import digital
 from gnuradio import filter
 from gnuradio import gr
 from gnuradio.filter import firdes
+import hsl
 import math
 
 class afsk_ax25(gr.hier_block2):
@@ -74,10 +75,10 @@ class afsk_ax25(gr.hier_block2):
                 taps=None,
                 fractional_bw=None,
         )
+        self.hsl_ptt_cc_0 = hsl.ptt_cc()
         self.digital_hdlc_framer_pb_0 = digital.hdlc_framer_pb('packet_len')
         self.digital_diff_encoder_bb_0 = digital.diff_encoder_bb(2)
         self.digital_chunks_to_symbols_xx_1 = digital.chunks_to_symbols_bf(([mark_freq, space_freq]), 1)
-        self.dc_blocker_xx_0 = filter.dc_blocker_cc(32, True)
         self.blocks_vector_source_x_0_0 = blocks.vector_source_b([0x7e], True, 1, [])
         self.blocks_vector_source_x_0 = blocks.vector_source_b([0x7e], True, 1, [])
         self.blocks_vco_f_0 = blocks.vco_f(samp_rate, 2*math.pi, .95)
@@ -103,7 +104,7 @@ class afsk_ax25(gr.hier_block2):
         # Connections
         ##################################################
         self.msg_connect((self, 'packets'), (self.digital_hdlc_framer_pb_0, 'in'))
-        self.connect((self.analog_nbfm_tx_0, 0), (self.dc_blocker_xx_0, 0))
+        self.connect((self.analog_nbfm_tx_0, 0), (self.hsl_ptt_cc_0, 0))
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 0))
         self.connect((self.blocks_and_const_xx_0_0_0_0, 0), (self.blocks_repeat_0, 0))
         self.connect((self.blocks_multiply_xx_0, 0), (self, 0))
@@ -113,12 +114,13 @@ class afsk_ax25(gr.hier_block2):
         self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.blocks_tagged_stream_mux_0, 2))
         self.connect((self.blocks_tagged_stream_mux_0, 0), (self.digital_diff_encoder_bb_0, 0))
         self.connect((self.blocks_vco_f_0, 0), (self.analog_nbfm_tx_0, 0))
+        self.connect((self.blocks_vco_f_0, 0), (self.hsl_ptt_cc_0, 1))
         self.connect((self.blocks_vector_source_x_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
         self.connect((self.blocks_vector_source_x_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0, 0))
-        self.connect((self.dc_blocker_xx_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_1, 0), (self.blocks_vco_f_0, 0))
         self.connect((self.digital_diff_encoder_bb_0, 0), (self.blocks_not_xx_0_0_0_0, 0))
         self.connect((self.digital_hdlc_framer_pb_0, 0), (self.blocks_tagged_stream_mux_0, 1))
+        self.connect((self.hsl_ptt_cc_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_multiply_xx_0, 1))
 
     def get_baud_rate(self):
