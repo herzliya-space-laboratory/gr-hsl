@@ -38,7 +38,8 @@ class bpsk_ax25(gr.hier_block2):
         gr.hier_block2.__init__(self,
             "bpsk_ax25",
             gr.io_signature(1, 1, gr.sizeof_gr_complex),  # Input signature
-            gr.io_signature(0, 3, [gr.sizeof_gr_complex, gr.sizeof_gr_complex, gr.sizeof_gr_complex])) # Output signature
+            gr.io_signaturev(3, 3, [gr.sizeof_gr_complex*1, gr.sizeof_gr_complex*1, gr.sizeof_gr_complex*1])
+            ) # Output signature
 
         self.message_port_register_hier_out("out")
         

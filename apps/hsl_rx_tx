@@ -111,8 +111,8 @@ class hsl_rx_tx(gr.top_block):
         self.blocks_udp_sink_0_0_0 = blocks.udp_sink(gr.sizeof_gr_complex*1, '127.0.0.1', 7352, 1472, True)
         self.blocks_udp_sink_0_0 = blocks.udp_sink(gr.sizeof_gr_complex*1, '127.0.0.1', 7351, 1472, True)
         self.blocks_udp_sink_0 = blocks.udp_sink(gr.sizeof_gr_complex*1, '127.0.0.1', 7350, 1472, True)
-        self.blocks_socket_pdu_1 = blocks.socket_pdu("TCP_SERVER", '', 'packets_port_tx', 10000, False)
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("TCP_SERVER", "localhost", 'packets_port_rx', 10000, False)
+        self.blocks_socket_pdu_1 = blocks.socket_pdu("TCP_SERVER", '', str(packets_port_tx), 10000, False)
+        self.blocks_socket_pdu_0 = blocks.socket_pdu("TCP_SERVER", '', str(packets_port_rx), 10000, False)
 
 
 
