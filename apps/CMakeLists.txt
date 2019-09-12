@@ -23,5 +23,6 @@ include(GrPython)
 GR_PYTHON_INSTALL(
     PROGRAMS
     hsl_rx_tx
+    hsl_gui
     DESTINATION ${GR_RUNTIME_DIR}
 )
