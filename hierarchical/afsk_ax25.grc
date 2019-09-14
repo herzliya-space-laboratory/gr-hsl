@@ -167,7 +167,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(632, 460)</value>
+      <value>(800, 460)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -230,7 +230,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(880, 468)</value>
+      <value>(1048, 468)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -336,7 +336,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(952, 356)</value>
+      <value>(840, 356)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -379,7 +379,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1088, 544)</value>
+      <value>(1256, 544)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -430,7 +430,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(880, 360)</value>
+      <value>(752, 360)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -454,6 +454,116 @@
     </param>
   </block>
   <block>
+    <key>blocks_packed_to_unpacked_xx</key>
+    <param>
+      <key>bits_per_chunk</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>endianness</key>
+      <value>gr.GR_LSB_FIRST</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(152, 252)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_packed_to_unpacked_xx_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_ports</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_packed_to_unpacked_xx</key>
+    <param>
+      <key>bits_per_chunk</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>endianness</key>
+      <value>gr.GR_LSB_FIRST</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(144, 460)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_packed_to_unpacked_xx_0_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_ports</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_repeat</key>
     <param>
       <key>alias</key>
@@ -473,7 +583,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1120, 356)</value>
+      <value>(1288, 356)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -524,7 +634,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(136, 284)</value>
+      <value>(336, 252)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -548,7 +658,7 @@
     </param>
     <param>
       <key>packet_len</key>
-      <value>int(baud_rate*preamble_len)/8</value>
+      <value>int(baud_rate*preamble_len)</value>
     </param>
     <param>
       <key>type</key>
@@ -579,7 +689,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(160, 492)</value>
+      <value>(344, 508)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -603,7 +713,7 @@
     </param>
     <param>
       <key>packet_len</key>
-      <value>postamble_len</value>
+      <value>postamble_len*8</value>
     </param>
     <param>
       <key>type</key>
@@ -634,7 +744,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(448, 328)</value>
+      <value>(432, 328)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -697,7 +807,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(440, 476)</value>
+      <value>(608, 476)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -744,7 +854,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(0, 276)</value>
+      <value>(8, 244)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -803,7 +913,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(0, 484)</value>
+      <value>(8, 452)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -866,7 +976,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1264, 348)</value>
+      <value>(1432, 348)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -921,7 +1031,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(704, 356)</value>
+      <value>(992, 356)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -968,7 +1078,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(136, 412)</value>
+      <value>(144, 380)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1007,7 +1117,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(712, 616)</value>
+      <value>(880, 616)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1163,7 +1273,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1200, 556)</value>
+      <value>(1368, 556)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1206,7 +1316,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(0, 412)</value>
+      <value>(8, 380)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1214,7 +1324,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>pad_source_0</value>
+      <value>pad_source_0_0</value>
     </param>
     <param>
       <key>label</key>
@@ -1359,7 +1469,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(872, 604)</value>
+      <value>(1040, 604)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1498,7 +1608,7 @@
   </connection>
   <connection>
     <source_block_id>blocks_and_const_xx_0_0_0_0</source_block_id>
-    <sink_block_id>blocks_repeat_0</sink_block_id>
+    <sink_block_id>digital_diff_encoder_bb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1511,6 +1621,18 @@
   <connection>
     <source_block_id>blocks_not_xx_0_0_0_0</source_block_id>
     <sink_block_id>blocks_and_const_xx_0_0_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_packed_to_unpacked_xx_0</source_block_id>
+    <sink_block_id>blocks_stream_to_tagged_stream_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_packed_to_unpacked_xx_0_0</source_block_id>
+    <sink_block_id>blocks_stream_to_tagged_stream_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1534,7 +1656,7 @@
   </connection>
   <connection>
     <source_block_id>blocks_tagged_stream_mux_0</source_block_id>
-    <sink_block_id>digital_diff_encoder_bb_0</sink_block_id>
+    <sink_block_id>blocks_not_xx_0_0_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1552,13 +1674,13 @@
   </connection>
   <connection>
     <source_block_id>blocks_vector_source_x_0</source_block_id>
-    <sink_block_id>blocks_stream_to_tagged_stream_0</sink_block_id>
+    <sink_block_id>blocks_packed_to_unpacked_xx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_vector_source_x_0_0</source_block_id>
-    <sink_block_id>blocks_stream_to_tagged_stream_0_0</sink_block_id>
+    <sink_block_id>blocks_packed_to_unpacked_xx_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1570,7 +1692,7 @@
   </connection>
   <connection>
     <source_block_id>digital_diff_encoder_bb_0</source_block_id>
-    <sink_block_id>blocks_not_xx_0_0_0_0</sink_block_id>
+    <sink_block_id>blocks_repeat_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1587,7 +1709,7 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>pad_source_0</source_block_id>
+    <source_block_id>pad_source_0_0</source_block_id>
     <sink_block_id>digital_hdlc_framer_pb_0</sink_block_id>
     <source_key>out</source_key>
     <sink_key>in</sink_key>

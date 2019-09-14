@@ -83,9 +83,11 @@ class afsk_ax25(gr.hier_block2):
         self.blocks_vector_source_x_0 = blocks.vector_source_b([0x7e], True, 1, [])
         self.blocks_vco_f_0 = blocks.vco_f(samp_rate, 2*math.pi, .95)
         self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'packet_len', 0)
-        self.blocks_stream_to_tagged_stream_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, postamble_len, "packet_len")
-        self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, int(baud_rate*preamble_len)/8, "packet_len")
+        self.blocks_stream_to_tagged_stream_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, postamble_len*8, "packet_len")
+        self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, int(baud_rate*preamble_len), "packet_len")
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_char*1, sps)
+        self.blocks_packed_to_unpacked_xx_0_0 = blocks.packed_to_unpacked_bb(1, gr.GR_LSB_FIRST)
+        self.blocks_packed_to_unpacked_xx_0 = blocks.packed_to_unpacked_bb(1, gr.GR_LSB_FIRST)
         self.blocks_not_xx_0_0_0_0 = blocks.not_bb()
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_and_const_xx_0_0_0_0 = blocks.and_const_bb(1)
@@ -106,19 +108,21 @@ class afsk_ax25(gr.hier_block2):
         self.msg_connect((self, 'packets'), (self.digital_hdlc_framer_pb_0, 'in'))
         self.connect((self.analog_nbfm_tx_0, 0), (self.hsl_ptt_cc_0, 0))
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 0))
-        self.connect((self.blocks_and_const_xx_0_0_0_0, 0), (self.blocks_repeat_0, 0))
+        self.connect((self.blocks_and_const_xx_0_0_0_0, 0), (self.digital_diff_encoder_bb_0, 0))
         self.connect((self.blocks_multiply_xx_0, 0), (self, 0))
         self.connect((self.blocks_not_xx_0_0_0_0, 0), (self.blocks_and_const_xx_0_0_0_0, 0))
+        self.connect((self.blocks_packed_to_unpacked_xx_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
+        self.connect((self.blocks_packed_to_unpacked_xx_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0, 0))
         self.connect((self.blocks_repeat_0, 0), (self.digital_chunks_to_symbols_xx_1, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.blocks_tagged_stream_mux_0, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.blocks_tagged_stream_mux_0, 2))
-        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.digital_diff_encoder_bb_0, 0))
+        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_not_xx_0_0_0_0, 0))
         self.connect((self.blocks_vco_f_0, 0), (self.analog_nbfm_tx_0, 0))
         self.connect((self.blocks_vco_f_0, 0), (self.hsl_ptt_cc_0, 1))
-        self.connect((self.blocks_vector_source_x_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
-        self.connect((self.blocks_vector_source_x_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0, 0))
+        self.connect((self.blocks_vector_source_x_0, 0), (self.blocks_packed_to_unpacked_xx_0, 0))
+        self.connect((self.blocks_vector_source_x_0_0, 0), (self.blocks_packed_to_unpacked_xx_0_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_1, 0), (self.blocks_vco_f_0, 0))
-        self.connect((self.digital_diff_encoder_bb_0, 0), (self.blocks_not_xx_0_0_0_0, 0))
+        self.connect((self.digital_diff_encoder_bb_0, 0), (self.blocks_repeat_0, 0))
         self.connect((self.digital_hdlc_framer_pb_0, 0), (self.blocks_tagged_stream_mux_0, 1))
         self.connect((self.hsl_ptt_cc_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_multiply_xx_0, 1))
@@ -129,8 +133,8 @@ class afsk_ax25(gr.hier_block2):
     def set_baud_rate(self, baud_rate):
         self.baud_rate = baud_rate
         self.set_sps(self.samp_rate/self.baud_rate)
-        self.blocks_stream_to_tagged_stream_0.set_packet_len(int(self.baud_rate*self.preamble_len)/8)
-        self.blocks_stream_to_tagged_stream_0.set_packet_len_pmt(int(self.baud_rate*self.preamble_len)/8)
+        self.blocks_stream_to_tagged_stream_0.set_packet_len(int(self.baud_rate*self.preamble_len))
+        self.blocks_stream_to_tagged_stream_0.set_packet_len_pmt(int(self.baud_rate*self.preamble_len))
 
     def get_mark_freq(self):
         return self.mark_freq
@@ -151,16 +155,16 @@ class afsk_ax25(gr.hier_block2):
 
     def set_postamble_len(self, postamble_len):
         self.postamble_len = postamble_len
-        self.blocks_stream_to_tagged_stream_0_0.set_packet_len(self.postamble_len)
-        self.blocks_stream_to_tagged_stream_0_0.set_packet_len_pmt(self.postamble_len)
+        self.blocks_stream_to_tagged_stream_0_0.set_packet_len(self.postamble_len*8)
+        self.blocks_stream_to_tagged_stream_0_0.set_packet_len_pmt(self.postamble_len*8)
 
     def get_preamble_len(self):
         return self.preamble_len
 
     def set_preamble_len(self, preamble_len):
         self.preamble_len = preamble_len
-        self.blocks_stream_to_tagged_stream_0.set_packet_len(int(self.baud_rate*self.preamble_len)/8)
-        self.blocks_stream_to_tagged_stream_0.set_packet_len_pmt(int(self.baud_rate*self.preamble_len)/8)
+        self.blocks_stream_to_tagged_stream_0.set_packet_len(int(self.baud_rate*self.preamble_len))
+        self.blocks_stream_to_tagged_stream_0.set_packet_len_pmt(int(self.baud_rate*self.preamble_len))
 
     def get_rf_samp_rate(self):
         return self.rf_samp_rate
