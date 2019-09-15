@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>AFSK AX.25</name>
-  <key>hsl_afsk_ax25</key>
+  <name>AFSK AX.25 Mod</name>
+  <key>hsl_afsk_ax25_mod</key>
   <category>[HSL]/Modulators</category>
   <import>import hsl</import>
-  <make>hsl.afsk_ax25(
+  <make>hsl.afsk_ax25_mod(
     baud_rate=$baud_rate,
     mark_freq=$mark_freq,
     offset=$offset,

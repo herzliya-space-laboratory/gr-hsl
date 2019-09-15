@@ -28,7 +28,7 @@ from gnuradio.filter import pfb
 import hsl
 import math
 
-class bpsk_ax25(gr.hier_block2):
+class bpsk_ax25_demod(gr.hier_block2):
     """
     Hierarchical block for decoding BPSK AX.25 packets
     Input: complex stream at $rf_samp_rate
@@ -36,7 +36,7 @@ class bpsk_ax25(gr.hier_block2):
     """
     def __init__(self, baudrate=9600, costas_loop_bw=2*math.pi/200, excess_bw=0.5, fll_loop_bw=2*math.pi/350, max_cfo=4e3, rf_samp_rate=2.4e6, symbol_Sync_loop_bw=2*math.pi/100):
         gr.hier_block2.__init__(self,
-            "bpsk_ax25",
+            "bpsk_ax25_demod",
             gr.io_signature(1, 1, gr.sizeof_gr_complex),  # Input signature
             gr.io_signaturev(3, 3, [gr.sizeof_gr_complex*1, gr.sizeof_gr_complex*1, gr.sizeof_gr_complex*1])
             ) # Output signature

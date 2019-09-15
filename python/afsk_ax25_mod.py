@@ -28,7 +28,7 @@ from gnuradio.filter import firdes
 import hsl
 import math
 
-class afsk_ax25(gr.hier_block2):
+class afsk_ax25_mod(gr.hier_block2):
     """
     Hierarchical block for encoding AFSK (FM Mode) AX.25 packets
     Input: AX.25 packets before HDLC (no CRC, flags & bit stuffing)
@@ -43,7 +43,7 @@ class afsk_ax25(gr.hier_block2):
     """
     def __init__(self, baud_rate=1200, mark_freq=1200, offset=50e3, postamble_len=4, preamble_len=.1, rf_samp_rate=2.4e6, space_freq=2200):
         gr.hier_block2.__init__(self,
-            "afsk_ax25",
+            "afsk_ax25_mod",
             gr.io_signature(0, 0, 0),  # Input signature
             gr.io_signature(1, 1, gr.sizeof_gr_complex)) # Output signature
 

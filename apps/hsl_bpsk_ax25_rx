@@ -1,0 +1,104 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+##################################################
+# GNU Radio Python Flow Graph
+# Title: HSL BPSK AX25 RX
+# Author: Ido
+# GNU Radio version: 3.7.13.5
+##################################################
+
+from gnuradio import blocks
+from gnuradio import eng_notation
+from gnuradio import gr
+from gnuradio import zeromq
+from gnuradio.eng_option import eng_option
+from gnuradio.filter import firdes
+from optparse import OptionParser
+import hsl
+import math
+
+
+class hsl_bpsk_ax25_rx(gr.top_block):
+
+    def __init__(self, baud_rate=9600, packets_port=52002, tcp_port=6001):
+        gr.top_block.__init__(self, "HSL BPSK AX25 RX")
+
+        ##################################################
+        # Parameters
+        ##################################################
+        self.baud_rate = baud_rate
+        self.packets_port = packets_port
+        self.tcp_port = tcp_port
+
+        ##################################################
+        # Blocks
+        ##################################################
+        self.zeromq_sub_source_0 = zeromq.sub_source(gr.sizeof_gr_complex, 1, 'tcp://127.0.0.1:'+str(tcp_port), 100, True, -1)
+        self.hsl_bpsk_ax25_demod_0 = hsl.bpsk_ax25_demod(
+            baudrate=9600,
+            costas_loop_bw=2*math.pi/200,
+            excess_bw=0.5,
+            fll_loop_bw=2*math.pi/350,
+            max_cfo=4e3,
+            rf_samp_rate=2.4e6,
+            symbol_Sync_loop_bw=2*math.pi/100,
+          )
+        self.blocks_socket_pdu_0 = blocks.socket_pdu("TCP_SERVER", '', 'str(packets_port_rx)', 10000, False)
+
+
+
+        ##################################################
+        # Connections
+        ##################################################
+        self.msg_connect((self.hsl_bpsk_ax25_demod_0, 'out'), (self.blocks_socket_pdu_0, 'pdus'))
+        self.connect((self.zeromq_sub_source_0, 0), (self.hsl_bpsk_ax25_demod_0, 0))
+
+    def get_baud_rate(self):
+        return self.baud_rate
+
+    def set_baud_rate(self, baud_rate):
+        self.baud_rate = baud_rate
+
+    def get_packets_port(self):
+        return self.packets_port
+
+    def set_packets_port(self, packets_port):
+        self.packets_port = packets_port
+
+    def get_tcp_port(self):
+        return self.tcp_port
+
+    def set_tcp_port(self, tcp_port):
+        self.tcp_port = tcp_port
+
+
+def argument_parser():
+    parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
+    parser.add_option(
+        "", "--baud-rate", dest="baud_rate", type="intx", default=9600,
+        help="Set Baud Rate [default=%default]")
+    parser.add_option(
+        "", "--packets-port", dest="packets_port", type="intx", default=52002,
+        help="Set TCP Port (ZMQ) [default=%default]")
+    parser.add_option(
+        "", "--tcp-port", dest="tcp_port", type="intx", default=6001,
+        help="Set TCP Port (ZMQ) [default=%default]")
+    return parser
+
+
+def main(top_block_cls=hsl_bpsk_ax25_rx, options=None):
+    if options is None:
+        options, _ = argument_parser().parse_args()
+
+    tb = top_block_cls(baud_rate=options.baud_rate, packets_port=options.packets_port, tcp_port=options.tcp_port)
+    tb.start()
+    try:
+        raw_input('Press Enter to quit: ')
+    except EOFError:
+        pass
+    tb.stop()
+    tb.wait()
+
+
+if __name__ == '__main__':
+    main()

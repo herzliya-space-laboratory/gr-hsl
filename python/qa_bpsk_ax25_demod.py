@@ -21,9 +21,9 @@
 
 from gnuradio import gr, gr_unittest
 from gnuradio import blocks
-from bpsk_ax25 import bpsk_ax25
+from bpsk_ax25_demod import bpsk_ax25_demod
 
-class qa_bpsk_ax25 (gr_unittest.TestCase):
+class qa_bpsk_ax25_demod (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
@@ -38,4 +38,4 @@ class qa_bpsk_ax25 (gr_unittest.TestCase):
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_bpsk_ax25, "qa_bpsk_ax25.xml")
+    gr_unittest.run(qa_bpsk_ax25_demod, "qa_bpsk_ax25.xml")

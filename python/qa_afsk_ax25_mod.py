@@ -21,9 +21,9 @@
 
 from gnuradio import gr, gr_unittest
 from gnuradio import blocks
-from afsk_ax25 import afsk_ax25
+from afsk_ax25_mod import afsk_ax25_mod
 
-class qa_afsk_ax25 (gr_unittest.TestCase):
+class qa_afsk_ax25_mod (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
@@ -38,4 +38,4 @@ class qa_afsk_ax25 (gr_unittest.TestCase):
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_afsk_ax25, "qa_afsk_ax25.xml")
+    gr_unittest.run(qa_afsk_ax25_mod, "qa_afsk_ax25.xml")

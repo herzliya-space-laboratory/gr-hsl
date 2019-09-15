@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>BPSK AX.25</name>
-  <key>hsl_bpsk_ax25</key>
+  <name>BPSK AX.25 Demod</name>
+  <key>hsl_bpsk_ax25_demod</key>
   <category>[HSL]/Modulators</category>
   <import>import hsl</import>
-  <make>hsl.bpsk_ax25(
+  <make>hsl.bpsk_ax25_demod(
     baudrate=$baudrate,
     costas_loop_bw=$costas_loop_bw,
     excess_bw=$excess_bw,
