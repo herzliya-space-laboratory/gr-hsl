@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>afsk_ax25</value>
+      <value>afsk_ax25_mod</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -82,7 +82,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>AFSK AX.25</value>
+      <value>AFSK AX.25 Mod</value>
     </param>
     <param>
       <key>placement</key>
