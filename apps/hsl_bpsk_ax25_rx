@@ -43,7 +43,7 @@ class hsl_bpsk_ax25_rx(gr.top_block):
             rf_samp_rate=2.4e6,
             symbol_Sync_loop_bw=2*math.pi/100,
           )
-        self.blocks_socket_pdu_0 = blocks.socket_pdu("TCP_SERVER", '', 'str(packets_port_rx)', 10000, False)
+        self.blocks_socket_pdu_0 = blocks.socket_pdu("TCP_SERVER", '', str(packets_port), 10000, False)
 
 
 

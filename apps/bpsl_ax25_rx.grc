@@ -184,7 +184,7 @@
     </param>
     <param>
       <key>port</key>
-      <value>str(packets_port_rx)</value>
+      <value>str(packets_port)</value>
     </param>
     <param>
       <key>tcp_no_delay</key>
