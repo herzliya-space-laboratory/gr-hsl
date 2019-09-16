@@ -22,13 +22,15 @@ import time
 
 class hsl_osmocom_rx_tx(gr.top_block):
 
-    def __init__(self, device_args="", rx_antenna="", rx_freq=436.4e6, rx_port=6001, rx_rf_gain=70, samp_rate_rx=2.4e6, samp_rate_tx=2.4e6, tx_antenna="", tx_freq=145.97e6, tx_gain=60, tx_offset=50e3, tx_port=6002, doppler_port_tx=7356, doppler_port_rx=7355):
+    def __init__(self, device_args="", doppler_port_rx='7355', doppler_port_tx='7356', rx_antenna="", rx_freq=436.4e6, rx_port=6001, rx_rf_gain=70, samp_rate_rx=2.4e6, samp_rate_tx=2.4e6, tx_antenna="", tx_freq=145.97e6, tx_gain=60, tx_offset=50e3, tx_port=6002):
         gr.top_block.__init__(self, "HSL Osmocom RX TX")
 
         ##################################################
         # Parameters
         ##################################################
         self.device_args = device_args
+        self.doppler_port_rx = doppler_port_rx
+        self.doppler_port_tx = doppler_port_tx
         self.rx_antenna = rx_antenna
         self.rx_freq = rx_freq
         self.rx_port = rx_port
@@ -40,8 +42,6 @@ class hsl_osmocom_rx_tx(gr.top_block):
         self.tx_gain = tx_gain
         self.tx_offset = tx_offset
         self.tx_port = tx_port
-        self.doppler_port_tx = doppler_port_tx
-        self.doppler_port_rx = doppler_port_rx
 
         ##################################################
         # Variables
@@ -77,8 +77,18 @@ class hsl_osmocom_rx_tx(gr.top_block):
         self.osmosdr_sink_0.set_antenna(tx_antenna, 0)
         self.osmosdr_sink_0.set_bandwidth(0, 0)
 
-        self.hsl_doppler_correction_cc_0_0 = hsl.doppler_correction_cc(base_freq=rx_freq, port=doppler_port_rx, samp_rate=samp_rate_rx)
-        self.hsl_doppler_correction_cc_0 = hsl.doppler_correction_cc(base_freq=tx_freq, port=doppler_port_tx, samp_rate=samp_rate_tx)
+        self.hsl_doppler_correction_cc_0_0 = hsl.doppler_correction_cc(
+            base_freq=rx_freq,
+            port=doppler_port_rx,
+            samp_rate=samp_rate_rx,
+            verbose=False,
+          )
+        self.hsl_doppler_correction_cc_0 = hsl.doppler_correction_cc(
+            base_freq=tx_freq,
+            port=doppler_port_tx,
+            samp_rate=samp_rate_tx,
+            verbose=False,
+          )
         self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(1, ([1]), rx_offset, samp_rate_rx)
 
 
@@ -98,6 +108,20 @@ class hsl_osmocom_rx_tx(gr.top_block):
     def set_device_args(self, device_args):
         self.device_args = device_args
 
+    def get_doppler_port_rx(self):
+        return self.doppler_port_rx
+
+    def set_doppler_port_rx(self, doppler_port_rx):
+        self.doppler_port_rx = doppler_port_rx
+        self.hsl_doppler_correction_cc_0_0.set_port(self.doppler_port_rx)
+
+    def get_doppler_port_tx(self):
+        return self.doppler_port_tx
+
+    def set_doppler_port_tx(self, doppler_port_tx):
+        self.doppler_port_tx = doppler_port_tx
+        self.hsl_doppler_correction_cc_0.set_port(self.doppler_port_tx)
+
     def get_rx_antenna(self):
         return self.rx_antenna
 
@@ -111,6 +135,7 @@ class hsl_osmocom_rx_tx(gr.top_block):
     def set_rx_freq(self, rx_freq):
         self.rx_freq = rx_freq
         self.osmosdr_source_0.set_center_freq(self.rx_freq-self.rx_offset+self.freq_correction, 0)
+        self.hsl_doppler_correction_cc_0_0.set_base_freq(self.rx_freq)
 
     def get_rx_port(self):
         return self.rx_port
@@ -154,6 +179,7 @@ class hsl_osmocom_rx_tx(gr.top_block):
     def set_tx_freq(self, tx_freq):
         self.tx_freq = tx_freq
         self.osmosdr_sink_0.set_center_freq(self.tx_freq-self.tx_offset+self.freq_correction, 0)
+        self.hsl_doppler_correction_cc_0.set_base_freq(self.tx_freq)
 
     def get_tx_gain(self):
         return self.tx_gain
@@ -174,20 +200,6 @@ class hsl_osmocom_rx_tx(gr.top_block):
 
     def set_tx_port(self, tx_port):
         self.tx_port = tx_port
-
-    def get_doppler_port_tx(self):
-        return self.doppler_port_tx
-
-    def set_doppler_port_tx(self, doppler_port_tx):
-        self.doppler_port_tx = doppler_port_tx
-        self.hsl_doppler_correction_cc_0.set_port(self.doppler_port_tx)
-
-    def get_doppler_port_rx(self):
-        return self.doppler_port_rx
-
-    def set_doppler_port_rx(self, doppler_port_rx):
-        self.doppler_port_rx = doppler_port_rx
-        self.hsl_doppler_correction_cc_0_0.set_port(self.doppler_port_rx)
 
     def get_rx_offset(self):
         return self.rx_offset
@@ -211,6 +223,12 @@ def argument_parser():
     parser.add_option(
         "", "--device-args", dest="device_args", type="string", default="",
         help="Set Device Arguments [default=%default]")
+    parser.add_option(
+        "", "--doppler-port-rx", dest="doppler_port_rx", type="string", default='7355',
+        help="Set Doppler Port RX [default=%default]")
+    parser.add_option(
+        "", "--doppler-port-tx", dest="doppler_port_tx", type="string", default='7356',
+        help="Set Doppler Port TX [default=%default]")
     parser.add_option(
         "", "--rx-antenna", dest="rx_antenna", type="string", default="",
         help="Set RX Antenna [default=%default]")
@@ -238,12 +256,6 @@ def argument_parser():
     parser.add_option(
         "", "--tx-port", dest="tx_port", type="intx", default=6002,
         help="Set TX TCP Port [default=%default]")
-    parser.add_option(
-        "", "--doppler-port-tx", dest="doppler_port_tx", type="intx", default=7356,
-        help="Set Doppler Port TX [default=%default]")
-    parser.add_option(
-        "", "--doppler-port-rx", dest="doppler_port_rx", type="intx", default=7355,
-        help="Set Doppler Port RX [default=%default]")
     return parser
 
 
@@ -251,7 +263,7 @@ def main(top_block_cls=hsl_osmocom_rx_tx, options=None):
     if options is None:
         options, _ = argument_parser().parse_args()
 
-    tb = top_block_cls(device_args=options.device_args, rx_antenna=options.rx_antenna, rx_freq=options.rx_freq, rx_port=options.rx_port, rx_rf_gain=options.rx_rf_gain, tx_antenna=options.tx_antenna, tx_freq=options.tx_freq, tx_gain=options.tx_gain, tx_offset=options.tx_offset, tx_port=options.tx_port, doppler_port_tx=options.doppler_port_tx, doppler_port_rx=options.doppler_port_rx)
+    tb = top_block_cls(device_args=options.device_args, doppler_port_rx=options.doppler_port_rx, doppler_port_tx=options.doppler_port_tx, rx_antenna=options.rx_antenna, rx_freq=options.rx_freq, rx_port=options.rx_port, rx_rf_gain=options.rx_rf_gain, tx_antenna=options.tx_antenna, tx_freq=options.tx_freq, tx_gain=options.tx_gain, tx_offset=options.tx_offset, tx_port=options.tx_port)
     tb.start()
     try:
         raw_input('Press Enter to quit: ')
