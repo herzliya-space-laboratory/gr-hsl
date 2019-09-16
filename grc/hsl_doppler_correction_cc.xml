@@ -4,9 +4,16 @@
   <key>hsl_doppler_correction_cc</key>
   <category>[HSL]</category>
   <import>import hsl</import>
-  <make>hsl.doppler_correction_cc(base_freq=$base_freq, port=$port, samp_rate=$samp_rate)</make>
+  <make>hsl.doppler_correction_cc(
+    base_freq=$base_freq,
+    port=$port,
+    samp_rate=$samp_rate,
+    verbose=$verbose,
+  )</make>
+  <callback>set_base_freq($base_freq)</callback>
   <callback>set_port($port)</callback>
   <callback>set_samp_rate($samp_rate)</callback>
+  <callback>set_verbose($verbose)</callback>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -23,7 +30,7 @@
     <name>Rigctl Port (TCP)</name>
     <key>port</key>
     <value>52001</value>
-    <type>int</type>
+    <type>string</type>
   </param>
 
   <param>
@@ -31,6 +38,14 @@
     <key>samp_rate</key>
     <value>48000</value>
     <type>float</type>
+  </param>
+
+  <param>
+    <name>Verbose</name>
+    <key>verbose</key>
+    <value>False</value>
+    <type>bool</type>
+    <hide>part</hide>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:

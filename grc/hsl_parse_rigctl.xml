@@ -5,7 +5,7 @@
   <category>[HSL]</category>
   <import>import hsl</import>
   <import>import pmt</import>
-  <make>hsl.parse_rigctl($base_freq)</make>
+  <make>hsl.parse_rigctl($base_freq, $verbose)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -16,6 +16,13 @@
     <key>base_freq</key>
     <value>0</value>
     <type>float</type>
+  </param>
+
+  <param>
+    <name>Verbose</name>
+    <key>verbose</key>
+    <value>False</value>
+    <type>bool</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:

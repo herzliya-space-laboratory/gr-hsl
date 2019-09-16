@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <?grc format='1' created='3.7.13'?>
 <flow_graph>
-  <timestamp>Sat Sep 14 18:06:44 2019</timestamp>
+  <timestamp>Mon Sep 16 11:30:00 2019</timestamp>
   <block>
     <key>options</key>
     <param>
@@ -14,7 +14,7 @@
     </param>
     <param>
       <key>category</key>
-      <value>[GRC Hier Blocks]</value>
+      <value>[HSL]</value>
     </param>
     <param>
       <key>comment</key>
@@ -22,7 +22,7 @@
     </param>
     <param>
       <key>description</key>
-      <value></value>
+      <value>Uses rigctl protocol</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -38,7 +38,7 @@
     </param>
     <param>
       <key>generate_options</key>
-      <value>no_gui</value>
+      <value>hb</value>
     </param>
     <param>
       <key>hier_block_src_path</key>
@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>hsl_afsk_ax25_tx</value>
+      <value>hsl_doppler_correction</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -82,11 +82,74 @@
     </param>
     <param>
       <key>title</key>
-      <value>HSL AFSK AX25 TX</value>
+      <value>Doppler Correction</value>
     </param>
     <param>
       <key>placement</key>
       <value>(0,0)</value>
+    </param>
+  </block>
+  <block>
+    <key>analog_sig_source_x</key>
+    <param>
+      <key>amp</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>freq</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(368, 332)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>analog_sig_source_x_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>offset</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>waveform</key>
+      <value>analog.GR_COS_WAVE</value>
     </param>
   </block>
   <block>
@@ -105,7 +168,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(216, 164)</value>
+      <value>(176, 260)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -113,11 +176,11 @@
     </param>
     <param>
       <key>id</key>
-      <value>baud_rate</value>
+      <value>base_freq</value>
     </param>
     <param>
       <key>label</key>
-      <value>Baud Rate</value>
+      <value>Base Frequency</value>
     </param>
     <param>
       <key>short_id</key>
@@ -129,11 +192,62 @@
     </param>
     <param>
       <key>type</key>
-      <value>intx</value>
+      <value>eng_float</value>
     </param>
     <param>
       <key>value</key>
-      <value>1200</value>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_multiply_xx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(568, 336)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_xx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -152,11 +266,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 292)</value>
+      <value>(24, 340)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -168,7 +282,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>blocks_socket_pdu_1</value>
+      <value>blocks_socket_pdu_0</value>
     </param>
     <param>
       <key>mtu</key>
@@ -184,7 +298,7 @@
     </param>
     <param>
       <key>port</key>
-      <value>str(packets_port)</value>
+      <value>port</value>
     </param>
     <param>
       <key>tcp_no_delay</key>
@@ -196,10 +310,10 @@
     </param>
   </block>
   <block>
-    <key>hsl_afsk_ax25_mod</key>
+    <key>hsl_parse_rigctl</key>
     <param>
-      <key>baud_rate</key>
-      <value>baud_rate</value>
+      <key>base_freq</key>
+      <value>base_freq</value>
     </param>
     <param>
       <key>alias</key>
@@ -219,7 +333,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(216, 268)</value>
+      <value>(176, 356)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -227,11 +341,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>hsl_afsk_ax25_mod_0</value>
-    </param>
-    <param>
-      <key>mark_freq</key>
-      <value>1200</value>
+      <value>hsl_parse_rigctl_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -242,24 +352,94 @@
       <value>0</value>
     </param>
     <param>
-      <key>postamble_len</key>
-      <value>4</value>
+      <key>verbose</key>
+      <value>bool(verbose)</value>
+    </param>
+  </block>
+  <block>
+    <key>pad_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
     </param>
     <param>
-      <key>preamble_len</key>
-      <value>.1</value>
+      <key>_enabled</key>
+      <value>True</value>
     </param>
     <param>
-      <key>rf_samp_rate</key>
-      <value>samp_rate</value>
+      <key>_coordinate</key>
+      <value>(680, 348)</value>
     </param>
     <param>
-      <key>space_freq</key>
-      <value>2200</value>
+      <key>_rotation</key>
+      <value>0</value>
     </param>
     <param>
-      <key>offset</key>
-      <value>offset</value>
+      <key>id</key>
+      <value>pad_sink_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>out</value>
+    </param>
+    <param>
+      <key>num_streams</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>optional</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>pad_source</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(368, 284)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pad_source_0</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>in</value>
+    </param>
+    <param>
+      <key>num_streams</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>optional</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -278,7 +458,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(216, 412)</value>
+      <value>(24, 244)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -286,11 +466,11 @@
     </param>
     <param>
       <key>id</key>
-      <value>offset</value>
+      <value>port</value>
     </param>
     <param>
       <key>label</key>
-      <value>Offset</value>
+      <value>Port (TCP rigctl)</value>
     </param>
     <param>
       <key>short_id</key>
@@ -302,54 +482,7 @@
     </param>
     <param>
       <key>type</key>
-      <value>eng_float</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>50e3</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(32, 196)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>packets_port</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Packets Port</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>hide</key>
-      <value>none</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>intx</value>
+      <value>string</value>
     </param>
     <param>
       <key>value</key>
@@ -372,7 +505,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(312, 412)</value>
+      <value>(8, 140)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -396,11 +529,11 @@
     </param>
     <param>
       <key>type</key>
-      <value>eng_float</value>
+      <value></value>
     </param>
     <param>
       <key>value</key>
-      <value>2.4e6</value>
+      <value>48000</value>
     </param>
   </block>
   <block>
@@ -419,7 +552,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(448, 204)</value>
+      <value>(176, 420)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -427,11 +560,11 @@
     </param>
     <param>
       <key>id</key>
-      <value>tcp_port</value>
+      <value>verbose</value>
     </param>
     <param>
       <key>label</key>
-      <value>TCP Port (ZMQ)</value>
+      <value>Verbose</value>
     </param>
     <param>
       <key>short_id</key>
@@ -439,7 +572,7 @@
     </param>
     <param>
       <key>hide</key>
-      <value>none</value>
+      <value>part</value>
     </param>
     <param>
       <key>type</key>
@@ -447,73 +580,36 @@
     </param>
     <param>
       <key>value</key>
-      <value>6002</value>
-    </param>
-  </block>
-  <block>
-    <key>zeromq_pub_sink</key>
-    <param>
-      <key>address</key>
-      <value>'tcp://127.0.0.1:'+str(tcp_port)</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(448, 300)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
       <value>0</value>
     </param>
-    <param>
-      <key>hwm</key>
-      <value>-1</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>zeromq_pub_sink_0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>pass_tags</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>timeout</key>
-      <value>100</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
   </block>
   <connection>
-    <source_block_id>blocks_socket_pdu_1</source_block_id>
-    <sink_block_id>hsl_afsk_ax25_mod_0</sink_block_id>
-    <source_key>pdus</source_key>
-    <sink_key>packets</sink_key>
+    <source_block_id>analog_sig_source_x_0</source_block_id>
+    <sink_block_id>blocks_multiply_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>1</sink_key>
   </connection>
   <connection>
-    <source_block_id>hsl_afsk_ax25_mod_0</source_block_id>
-    <sink_block_id>zeromq_pub_sink_0</sink_block_id>
+    <source_block_id>blocks_multiply_xx_0</source_block_id>
+    <sink_block_id>pad_sink_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_socket_pdu_0</source_block_id>
+    <sink_block_id>hsl_parse_rigctl_0</sink_block_id>
+    <source_key>pdus</source_key>
+    <sink_key>rigctl</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>hsl_parse_rigctl_0</source_block_id>
+    <sink_block_id>analog_sig_source_x_0</sink_block_id>
+    <source_key>freq</source_key>
+    <sink_key>freq</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>pad_source_0</source_block_id>
+    <sink_block_id>blocks_multiply_xx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

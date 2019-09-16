@@ -44,7 +44,6 @@ class hsl_afsk_ax25_tx(gr.top_block):
             rf_samp_rate=samp_rate,
             space_freq=2200,
           )
-        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.blocks_socket_pdu_1 = blocks.socket_pdu("TCP_SERVER", '', str(packets_port), 10000, False)
 
 
@@ -53,8 +52,7 @@ class hsl_afsk_ax25_tx(gr.top_block):
         # Connections
         ##################################################
         self.msg_connect((self.blocks_socket_pdu_1, 'pdus'), (self.hsl_afsk_ax25_mod_0, 'packets'))
-        self.connect((self.blocks_throttle_0, 0), (self.zeromq_pub_sink_0, 0))
-        self.connect((self.hsl_afsk_ax25_mod_0, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.hsl_afsk_ax25_mod_0, 0), (self.zeromq_pub_sink_0, 0))
 
     def get_baud_rate(self):
         return self.baud_rate
@@ -82,7 +80,6 @@ class hsl_afsk_ax25_tx(gr.top_block):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.hsl_afsk_ax25_mod_0.set_rf_samp_rate(self.samp_rate)
-        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
 
     def get_tcp_port(self):
         return self.tcp_port
