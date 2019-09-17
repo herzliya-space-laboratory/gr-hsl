@@ -1,0 +1,25 @@
+name: BUILD
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install build dependencies
+      run: |
+        apt install build-essential cmake gnuradio-dev doxygen pkg-config python-dev swig
+    - name: Run cmake
+      run: |
+        mkdir build
+        cd build
+    - name: Run make
+        run: make
+    - name: Run check
+        run: make check
