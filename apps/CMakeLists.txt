@@ -22,5 +22,10 @@ include(GrPython)
 
 GR_PYTHON_INSTALL(
     PROGRAMS
-    DESTINATION bin
+    hsl_rx_tx
+    hsl_gui
+    hsl_osmocom_rx_tx
+    hsl_afsk_ax25_tx
+    hsl_bpsk_ax25_rx
+    DESTINATION ${GR_RUNTIME_DIR}
 )

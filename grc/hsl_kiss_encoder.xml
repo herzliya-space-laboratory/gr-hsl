@@ -1,29 +1,15 @@
 <?xml version="1.0"?>
 <block>
-  <name>Parse Rigctl</name>
-  <key>hsl_parse_rigctl</key>
-  <category>[HSL]</category>
+  <name>KISS Encoder</name>
+  <key>hsl_kiss_encoder</key>
+  <category>[HSL]/Encoders</category>
   <import>import hsl</import>
-  <import>import pmt</import>
-  <make>hsl.parse_rigctl($base_freq, $verbose)</make>
+  <make>hsl.kiss_encoder()</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
-  <param>
-    <name>Base Frequency (Hz)</name>
-    <key>base_freq</key>
-    <value>0</value>
-    <type>float</type>
-  </param>
-
-  <param>
-    <name>Verbose</name>
-    <key>verbose</key>
-    <value>False</value>
-    <type>bool</type>
-  </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
@@ -31,7 +17,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>rigctl</name>
+    <name>packet</name>
     <type>message<!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
   </sink>
 
@@ -41,7 +27,7 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>freq</name>
+    <name>encoded_packet</name>
     <type>message<!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
   </source>
 </block>

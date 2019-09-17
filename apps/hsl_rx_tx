@@ -1,0 +1,343 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+##################################################
+# GNU Radio Python Flow Graph
+# Title: HSL RXTX
+# Author: Ido
+# GNU Radio version: 3.7.13.5
+##################################################
+
+from gnuradio import blocks
+from gnuradio import eng_notation
+from gnuradio import filter
+from gnuradio import gr
+from gnuradio.eng_option import eng_option
+from gnuradio.filter import firdes
+from gnuradio.filter import pfb
+from optparse import OptionParser
+import hsl
+import math
+import osmosdr
+import time
+
+
+class hsl_rx_tx(gr.top_block):
+
+    def __init__(self, device_args="", doppler_port_rx=7355, doppler_port_tx=7356, gui_port_clock=7351, gui_port_costats=7352, gui_port_fll=7353, gui_port_wide=7350, packets_port_rx=52002, packets_port_tx=52001, rx_antenna="", rx_freq=436.4e6, rx_rf_gain=70, samp_rate_rx=2.4e6, samp_rate_tx=2.4e6, tx_antenna="", tx_freq=145.97e6, tx_gain=60, tx_offset=50e3):
+        gr.top_block.__init__(self, "HSL RXTX")
+
+        ##################################################
+        # Parameters
+        ##################################################
+        self.device_args = device_args
+        self.doppler_port_rx = doppler_port_rx
+        self.doppler_port_tx = doppler_port_tx
+        self.gui_port_clock = gui_port_clock
+        self.gui_port_costats = gui_port_costats
+        self.gui_port_fll = gui_port_fll
+        self.gui_port_wide = gui_port_wide
+        self.packets_port_rx = packets_port_rx
+        self.packets_port_tx = packets_port_tx
+        self.rx_antenna = rx_antenna
+        self.rx_freq = rx_freq
+        self.rx_rf_gain = rx_rf_gain
+        self.samp_rate_rx = samp_rate_rx
+        self.samp_rate_tx = samp_rate_tx
+        self.tx_antenna = tx_antenna
+        self.tx_freq = tx_freq
+        self.tx_gain = tx_gain
+        self.tx_offset = tx_offset
+
+        ##################################################
+        # Variables
+        ##################################################
+        self.rx_offset = rx_offset = 50e3
+        self.freq_correction = freq_correction = 0
+
+        ##################################################
+        # Blocks
+        ##################################################
+        self.pfb_arb_resampler_xxx_0 = pfb.arb_resampler_ccf(
+        	  192e3/samp_rate_rx,
+                  taps=None,
+        	  flt_size=32)
+        self.pfb_arb_resampler_xxx_0.declare_sample_delay(0)
+
+        self.osmosdr_source_0 = osmosdr.source( args="numchan=" + str(1) + " " + device_args )
+        self.osmosdr_source_0.set_sample_rate(samp_rate_rx)
+        self.osmosdr_source_0.set_center_freq(rx_freq-rx_offset+freq_correction, 0)
+        self.osmosdr_source_0.set_freq_corr(0, 0)
+        self.osmosdr_source_0.set_dc_offset_mode(0, 0)
+        self.osmosdr_source_0.set_iq_balance_mode(0, 0)
+        self.osmosdr_source_0.set_gain_mode(False, 0)
+        self.osmosdr_source_0.set_gain(rx_rf_gain, 0)
+        self.osmosdr_source_0.set_if_gain(20, 0)
+        self.osmosdr_source_0.set_bb_gain(20, 0)
+        self.osmosdr_source_0.set_antenna(rx_antenna, 0)
+        self.osmosdr_source_0.set_bandwidth(0, 0)
+
+        self.osmosdr_sink_0 = osmosdr.sink( args="numchan=" + str(1) + " " + device_args )
+        self.osmosdr_sink_0.set_sample_rate(samp_rate_tx)
+        self.osmosdr_sink_0.set_center_freq(tx_freq-tx_offset+freq_correction, 0)
+        self.osmosdr_sink_0.set_freq_corr(0, 0)
+        self.osmosdr_sink_0.set_gain(tx_gain, 0)
+        self.osmosdr_sink_0.set_if_gain(20, 0)
+        self.osmosdr_sink_0.set_bb_gain(20, 0)
+        self.osmosdr_sink_0.set_antenna(tx_antenna, 0)
+        self.osmosdr_sink_0.set_bandwidth(0, 0)
+
+        self.hsl_doppler_correction_cc_0_0 = hsl.doppler_correction_cc(base_freq=rx_freq, port=doppler_port_rx, samp_rate=samp_rate_rx)
+        self.hsl_doppler_correction_cc_0 = hsl.doppler_correction_cc(base_freq=tx_freq, port=doppler_port_tx, samp_rate=samp_rate_tx)
+        self.hsl_bpsk_ax25_demod_0 = hsl.bpsk_ax25_demod(
+            baudrate=9600,
+            costas_loop_bw=2*math.pi/200,
+            excess_bw=0.5,
+            fll_loop_bw=2*math.pi/350,
+            max_cfo=4e3,
+            rf_samp_rate=2.4e6,
+            symbol_Sync_loop_bw=2*math.pi/100,
+          )
+        self.hsl_afsk_ax25_mod_0 = hsl.afsk_ax25_mod(
+            baud_rate=1200,
+            mark_freq=1200,
+            offset=tx_offset,
+            postamble_len=4,
+            preamble_len=.1,
+            rf_samp_rate=samp_rate_tx,
+            space_freq=2200,
+          )
+        self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(1, ([1]), rx_offset, samp_rate_rx)
+        self.blocks_udp_sink_0_0_0_0 = blocks.udp_sink(gr.sizeof_gr_complex*1, '127.0.0.1', 7353, 1472, True)
+        self.blocks_udp_sink_0_0_0 = blocks.udp_sink(gr.sizeof_gr_complex*1, '127.0.0.1', 7352, 1472, True)
+        self.blocks_udp_sink_0_0 = blocks.udp_sink(gr.sizeof_gr_complex*1, '127.0.0.1', 7351, 1472, True)
+        self.blocks_udp_sink_0 = blocks.udp_sink(gr.sizeof_gr_complex*1, '127.0.0.1', 7350, 1472, True)
+        self.blocks_socket_pdu_1 = blocks.socket_pdu("TCP_SERVER", '', str(packets_port_tx), 10000, False)
+        self.blocks_socket_pdu_0 = blocks.socket_pdu("TCP_SERVER", '', str(packets_port_rx), 10000, False)
+
+
+
+        ##################################################
+        # Connections
+        ##################################################
+        self.msg_connect((self.blocks_socket_pdu_1, 'pdus'), (self.hsl_afsk_ax25_mod_0, 'packets'))
+        self.connect((self.freq_xlating_fir_filter_xxx_0, 0), (self.hsl_doppler_correction_cc_0_0, 0))
+        self.connect((self.hsl_afsk_ax25_mod_0, 0), (self.hsl_doppler_correction_cc_0, 0))
+        self.connect((self.hsl_bpsk_ax25_demod_0, 0), (self.blocks_udp_sink_0_0, 0))
+        self.connect((self.hsl_bpsk_ax25_demod_0, 1), (self.blocks_udp_sink_0_0_0, 0))
+        self.connect((self.hsl_bpsk_ax25_demod_0, 2), (self.blocks_udp_sink_0_0_0_0, 0))
+        self.connect((self.hsl_doppler_correction_cc_0, 0), (self.osmosdr_sink_0, 0))
+        self.connect((self.hsl_doppler_correction_cc_0_0, 0), (self.hsl_bpsk_ax25_demod_0, 0))
+        self.connect((self.hsl_doppler_correction_cc_0_0, 0), (self.pfb_arb_resampler_xxx_0, 0))
+        self.connect((self.osmosdr_source_0, 0), (self.freq_xlating_fir_filter_xxx_0, 0))
+        self.connect((self.pfb_arb_resampler_xxx_0, 0), (self.blocks_udp_sink_0, 0))
+
+    def get_device_args(self):
+        return self.device_args
+
+    def set_device_args(self, device_args):
+        self.device_args = device_args
+
+    def get_doppler_port_rx(self):
+        return self.doppler_port_rx
+
+    def set_doppler_port_rx(self, doppler_port_rx):
+        self.doppler_port_rx = doppler_port_rx
+        self.hsl_doppler_correction_cc_0_0.set_port(self.doppler_port_rx)
+
+    def get_doppler_port_tx(self):
+        return self.doppler_port_tx
+
+    def set_doppler_port_tx(self, doppler_port_tx):
+        self.doppler_port_tx = doppler_port_tx
+        self.hsl_doppler_correction_cc_0.set_port(self.doppler_port_tx)
+
+    def get_gui_port_clock(self):
+        return self.gui_port_clock
+
+    def set_gui_port_clock(self, gui_port_clock):
+        self.gui_port_clock = gui_port_clock
+
+    def get_gui_port_costats(self):
+        return self.gui_port_costats
+
+    def set_gui_port_costats(self, gui_port_costats):
+        self.gui_port_costats = gui_port_costats
+
+    def get_gui_port_fll(self):
+        return self.gui_port_fll
+
+    def set_gui_port_fll(self, gui_port_fll):
+        self.gui_port_fll = gui_port_fll
+
+    def get_gui_port_wide(self):
+        return self.gui_port_wide
+
+    def set_gui_port_wide(self, gui_port_wide):
+        self.gui_port_wide = gui_port_wide
+
+    def get_packets_port_rx(self):
+        return self.packets_port_rx
+
+    def set_packets_port_rx(self, packets_port_rx):
+        self.packets_port_rx = packets_port_rx
+
+    def get_packets_port_tx(self):
+        return self.packets_port_tx
+
+    def set_packets_port_tx(self, packets_port_tx):
+        self.packets_port_tx = packets_port_tx
+
+    def get_rx_antenna(self):
+        return self.rx_antenna
+
+    def set_rx_antenna(self, rx_antenna):
+        self.rx_antenna = rx_antenna
+        self.osmosdr_source_0.set_antenna(self.rx_antenna, 0)
+
+    def get_rx_freq(self):
+        return self.rx_freq
+
+    def set_rx_freq(self, rx_freq):
+        self.rx_freq = rx_freq
+        self.osmosdr_source_0.set_center_freq(self.rx_freq-self.rx_offset+self.freq_correction, 0)
+
+    def get_rx_rf_gain(self):
+        return self.rx_rf_gain
+
+    def set_rx_rf_gain(self, rx_rf_gain):
+        self.rx_rf_gain = rx_rf_gain
+        self.osmosdr_source_0.set_gain(self.rx_rf_gain, 0)
+
+    def get_samp_rate_rx(self):
+        return self.samp_rate_rx
+
+    def set_samp_rate_rx(self, samp_rate_rx):
+        self.samp_rate_rx = samp_rate_rx
+        self.pfb_arb_resampler_xxx_0.set_rate(192e3/self.samp_rate_rx)
+        self.osmosdr_source_0.set_sample_rate(self.samp_rate_rx)
+        self.hsl_doppler_correction_cc_0_0.set_samp_rate(self.samp_rate_rx)
+
+    def get_samp_rate_tx(self):
+        return self.samp_rate_tx
+
+    def set_samp_rate_tx(self, samp_rate_tx):
+        self.samp_rate_tx = samp_rate_tx
+        self.osmosdr_sink_0.set_sample_rate(self.samp_rate_tx)
+        self.hsl_doppler_correction_cc_0.set_samp_rate(self.samp_rate_tx)
+        self.hsl_afsk_ax25_mod_0.set_rf_samp_rate(self.samp_rate_tx)
+
+    def get_tx_antenna(self):
+        return self.tx_antenna
+
+    def set_tx_antenna(self, tx_antenna):
+        self.tx_antenna = tx_antenna
+        self.osmosdr_sink_0.set_antenna(self.tx_antenna, 0)
+
+    def get_tx_freq(self):
+        return self.tx_freq
+
+    def set_tx_freq(self, tx_freq):
+        self.tx_freq = tx_freq
+        self.osmosdr_sink_0.set_center_freq(self.tx_freq-self.tx_offset+self.freq_correction, 0)
+
+    def get_tx_gain(self):
+        return self.tx_gain
+
+    def set_tx_gain(self, tx_gain):
+        self.tx_gain = tx_gain
+        self.osmosdr_sink_0.set_gain(self.tx_gain, 0)
+
+    def get_tx_offset(self):
+        return self.tx_offset
+
+    def set_tx_offset(self, tx_offset):
+        self.tx_offset = tx_offset
+        self.osmosdr_sink_0.set_center_freq(self.tx_freq-self.tx_offset+self.freq_correction, 0)
+        self.hsl_afsk_ax25_mod_0.set_offset(self.tx_offset)
+
+    def get_rx_offset(self):
+        return self.rx_offset
+
+    def set_rx_offset(self, rx_offset):
+        self.rx_offset = rx_offset
+        self.osmosdr_source_0.set_center_freq(self.rx_freq-self.rx_offset+self.freq_correction, 0)
+        self.freq_xlating_fir_filter_xxx_0.set_center_freq(self.rx_offset)
+
+    def get_freq_correction(self):
+        return self.freq_correction
+
+    def set_freq_correction(self, freq_correction):
+        self.freq_correction = freq_correction
+        self.osmosdr_source_0.set_center_freq(self.rx_freq-self.rx_offset+self.freq_correction, 0)
+        self.osmosdr_sink_0.set_center_freq(self.tx_freq-self.tx_offset+self.freq_correction, 0)
+
+
+def argument_parser():
+    parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
+    parser.add_option(
+        "", "--device-args", dest="device_args", type="string", default="",
+        help="Set Device Arguments [default=%default]")
+    parser.add_option(
+        "", "--doppler-port-rx", dest="doppler_port_rx", type="intx", default=7355,
+        help="Set Doppler Port RX [default=%default]")
+    parser.add_option(
+        "", "--doppler-port-tx", dest="doppler_port_tx", type="intx", default=7356,
+        help="Set Doppler Port TX [default=%default]")
+    parser.add_option(
+        "", "--gui-port-clock", dest="gui_port_clock", type="intx", default=7351,
+        help="Set GUI Port Clock [default=%default]")
+    parser.add_option(
+        "", "--gui-port-costats", dest="gui_port_costats", type="intx", default=7352,
+        help="Set GUI Port Costas [default=%default]")
+    parser.add_option(
+        "", "--gui-port-fll", dest="gui_port_fll", type="intx", default=7353,
+        help="Set GUI Port FLL [default=%default]")
+    parser.add_option(
+        "", "--gui-port-wide", dest="gui_port_wide", type="intx", default=7350,
+        help="Set GUI Port Wide [default=%default]")
+    parser.add_option(
+        "", "--packets-port-rx", dest="packets_port_rx", type="intx", default=52002,
+        help="Set Packets Port RX [default=%default]")
+    parser.add_option(
+        "", "--packets-port-tx", dest="packets_port_tx", type="intx", default=52001,
+        help="Set Packets Port TX [default=%default]")
+    parser.add_option(
+        "", "--rx-antenna", dest="rx_antenna", type="string", default="",
+        help="Set RX Antenna [default=%default]")
+    parser.add_option(
+        "", "--rx-freq", dest="rx_freq", type="eng_float", default=eng_notation.num_to_str(436.4e6),
+        help="Set rx_freq [default=%default]")
+    parser.add_option(
+        "", "--rx-rf-gain", dest="rx_rf_gain", type="intx", default=70,
+        help="Set rx_rf_gain [default=%default]")
+    parser.add_option(
+        "", "--tx-antenna", dest="tx_antenna", type="string", default="",
+        help="Set TX Antenna [default=%default]")
+    parser.add_option(
+        "", "--tx-freq", dest="tx_freq", type="eng_float", default=eng_notation.num_to_str(145.97e6),
+        help="Set tx_freq [default=%default]")
+    parser.add_option(
+        "", "--tx-gain", dest="tx_gain", type="intx", default=60,
+        help="Set tx_gain [default=%default]")
+    parser.add_option(
+        "", "--tx-offset", dest="tx_offset", type="eng_float", default=eng_notation.num_to_str(50e3),
+        help="Set tx_offset [default=%default]")
+    return parser
+
+
+def main(top_block_cls=hsl_rx_tx, options=None):
+    if options is None:
+        options, _ = argument_parser().parse_args()
+
+    tb = top_block_cls(device_args=options.device_args, doppler_port_rx=options.doppler_port_rx, doppler_port_tx=options.doppler_port_tx, gui_port_clock=options.gui_port_clock, gui_port_costats=options.gui_port_costats, gui_port_fll=options.gui_port_fll, gui_port_wide=options.gui_port_wide, packets_port_rx=options.packets_port_rx, packets_port_tx=options.packets_port_tx, rx_antenna=options.rx_antenna, rx_freq=options.rx_freq, rx_rf_gain=options.rx_rf_gain, tx_antenna=options.tx_antenna, tx_freq=options.tx_freq, tx_gain=options.tx_gain, tx_offset=options.tx_offset)
+    tb.start()
+    try:
+        raw_input('Press Enter to quit: ')
+    except EOFError:
+        pass
+    tb.stop()
+    tb.wait()
+
+
+if __name__ == '__main__':
+    main()

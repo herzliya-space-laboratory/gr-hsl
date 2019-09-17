@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<block>
+  <name>AFSK AX.25 Mod</name>
+  <key>hsl_afsk_ax25_mod</key>
+  <category>[HSL]/Modulators</category>
+  <import>import hsl</import>
+  <make>hsl.afsk_ax25_mod(
+    baud_rate=$baud_rate,
+    mark_freq=$mark_freq,
+    offset=$offset,
+    postamble_len=$postamble_len,
+    preamble_len=$preamble_len,
+    rf_samp_rate=$rf_samp_rate,
+    space_freq=$space_freq,
+  )</make>
+
+  <callback>set_baud_rate($baud_rate)</callback>
+  <callback>set_mark_freq($mark_freq)</callback>
+  <callback>set_offset($offset)</callback>
+  <callback>set_postamble_len($postamble_len)</callback>
+  <callback>set_preamble_len($preamble_len)</callback>
+  <callback>set_rf_samp_rate($rf_samp_rate)</callback>
+  <callback>set_space_freq($space_freq)</callback>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+ <param>
+    <name>Baud Rate</name>
+    <key>baud_rate</key>
+    <value>1200</value>
+    <type>int</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>Mark Frequency</name>
+    <key>mark_freq</key>
+    <value>1200</value>
+    <type>float</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>Tx Carrier Offset</name>
+    <key>offset</key>
+    <value>50e3</value>
+    <type>float</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>Postamble Length (bytes)</name>
+    <key>postamble_len</key>
+    <value>4</value>
+    <type>int</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>Preamble Length (ms)</name>
+    <key>preamble_len</key>
+    <value>.1</value>
+    <type>float</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>Sample Rate</name>
+    <key>rf_samp_rate</key>
+    <value>2.4e6</value>
+    <type>float</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>Space Frequency</name>
+    <key>space_freq</key>
+    <value>2200</value>
+    <type>float</type>
+    <hide>none</hide>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>packets</name>
+    <type>message<!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>out</name>
+    <type>complex<!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+  </source>
+</block>

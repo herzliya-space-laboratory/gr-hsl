@@ -1,0 +1,126 @@
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+##################################################
+# GNU Radio Python Flow Graph
+# Title: HSL AFSK AX25 TX
+# Author: Ido
+# GNU Radio version: 3.7.13.5
+##################################################
+
+from gnuradio import blocks
+from gnuradio import eng_notation
+from gnuradio import gr
+from gnuradio import zeromq
+from gnuradio.eng_option import eng_option
+from gnuradio.filter import firdes
+from optparse import OptionParser
+import hsl
+
+
+class hsl_afsk_ax25_tx(gr.top_block):
+
+    def __init__(self, baud_rate=1200, offset=50e3, packets_port=52001, samp_rate=2.4e6, tcp_port=6002):
+        gr.top_block.__init__(self, "HSL AFSK AX25 TX")
+
+        ##################################################
+        # Parameters
+        ##################################################
+        self.baud_rate = baud_rate
+        self.offset = offset
+        self.packets_port = packets_port
+        self.samp_rate = samp_rate
+        self.tcp_port = tcp_port
+
+        ##################################################
+        # Blocks
+        ##################################################
+        self.zeromq_pub_sink_0 = zeromq.pub_sink(gr.sizeof_gr_complex, 1, 'tcp://127.0.0.1:'+str(tcp_port), 100, True, -1)
+        self.hsl_afsk_ax25_mod_0 = hsl.afsk_ax25_mod(
+            baud_rate=baud_rate,
+            mark_freq=1200,
+            offset=offset,
+            postamble_len=4,
+            preamble_len=.1,
+            rf_samp_rate=samp_rate,
+            space_freq=2200,
+          )
+        self.blocks_socket_pdu_1 = blocks.socket_pdu("TCP_SERVER", '', str(packets_port), 10000, False)
+
+
+
+        ##################################################
+        # Connections
+        ##################################################
+        self.msg_connect((self.blocks_socket_pdu_1, 'pdus'), (self.hsl_afsk_ax25_mod_0, 'packets'))
+        self.connect((self.hsl_afsk_ax25_mod_0, 0), (self.zeromq_pub_sink_0, 0))
+
+    def get_baud_rate(self):
+        return self.baud_rate
+
+    def set_baud_rate(self, baud_rate):
+        self.baud_rate = baud_rate
+        self.hsl_afsk_ax25_mod_0.set_baud_rate(self.baud_rate)
+
+    def get_offset(self):
+        return self.offset
+
+    def set_offset(self, offset):
+        self.offset = offset
+        self.hsl_afsk_ax25_mod_0.set_offset(self.offset)
+
+    def get_packets_port(self):
+        return self.packets_port
+
+    def set_packets_port(self, packets_port):
+        self.packets_port = packets_port
+
+    def get_samp_rate(self):
+        return self.samp_rate
+
+    def set_samp_rate(self, samp_rate):
+        self.samp_rate = samp_rate
+        self.hsl_afsk_ax25_mod_0.set_rf_samp_rate(self.samp_rate)
+
+    def get_tcp_port(self):
+        return self.tcp_port
+
+    def set_tcp_port(self, tcp_port):
+        self.tcp_port = tcp_port
+
+
+def argument_parser():
+    parser = OptionParser(usage="%prog: [options]", option_class=eng_option)
+    parser.add_option(
+        "", "--baud-rate", dest="baud_rate", type="intx", default=1200,
+        help="Set Baud Rate [default=%default]")
+    parser.add_option(
+        "", "--offset", dest="offset", type="eng_float", default=eng_notation.num_to_str(50e3),
+        help="Set Offset [default=%default]")
+    parser.add_option(
+        "", "--packets-port", dest="packets_port", type="intx", default=52001,
+        help="Set Packets Port [default=%default]")
+    parser.add_option(
+        "", "--samp-rate", dest="samp_rate", type="eng_float", default=eng_notation.num_to_str(2.4e6),
+        help="Set Sample Rate [default=%default]")
+    parser.add_option(
+        "", "--tcp-port", dest="tcp_port", type="intx", default=6002,
+        help="Set TCP Port (ZMQ) [default=%default]")
+    return parser
+
+
+def main(top_block_cls=hsl_afsk_ax25_tx, options=None):
+    if options is None:
+        options, _ = argument_parser().parse_args()
+
+    tb = top_block_cls(baud_rate=options.baud_rate, offset=options.offset, packets_port=options.packets_port, samp_rate=options.samp_rate, tcp_port=options.tcp_port)
+    tb.start()
+    try:
+        raw_input('Press Enter to quit: ')
+    except EOFError:
+        pass
+    tb.stop()
+    tb.wait()
+
+
+if __name__ == '__main__':
+    main()

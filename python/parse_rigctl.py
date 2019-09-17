@@ -32,13 +32,14 @@ class parse_rigctl(gr.basic_block):
     Output: 1000
     This is meant to control a Signal Source for doppler correction.
     """
-    def __init__(self, base_freq=0):
+    def __init__(self, base_freq=0, verbose=False):
         gr.basic_block.__init__(self,
             name="parse_rigctl",
             in_sig=None,
             out_sig=None)
 
         self.base_freq = int(base_freq)
+        self.verbose = bool(verbose)
 
         self.message_port_register_in(pmt.intern("rigctl"))
         self.message_port_register_out(pmt.intern("freq"))
@@ -55,6 +56,12 @@ class parse_rigctl(gr.basic_block):
         for num in x:
             string += chr(num)
         message_freq = int(string[2:])
+        if self.verbose:
+            print()
+            print("[Doppler Correction] Verbose")
+            print()
+            print("Recieved frequency command with frequency: " + str(message_freq))
+            print("Output is: " + str(message_freq-self.base_freq))
         self.message_port_pub(pmt.intern('freq'), pmt.from_double(message_freq-self.base_freq))
 
     def get_base_freq(self):
