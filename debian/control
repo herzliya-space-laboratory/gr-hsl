@@ -1,0 +1,26 @@
+Source: gr-hsl
+Section: comm
+Priority: optional
+Maintainer: Ido Bronfeld <idobronfeld@gmail.com>
+Build-Depends: debhelper (>=10),
+               build-essential, 
+               cmake, 
+               gnuradio-dev (>= 3.7.12),
+               doxygen,
+               pkg-config,
+               python-dev,
+               swig
+Standards-Version: 4.0.0
+Homepage: https://github.com/herzliya-space-laboratory/gr-hsl
+
+Package: gr-hsl
+Architecture: amd64
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, gnuradio-dev (>= 3.7.12),
+  ${python:Depends}, python-numpy, python3-numpy, soapysdr-tools,
+  osmo-sdr, soapysdr-module-osmosdr, rtl-sdr, soapysdr-module-rtlsdr, bladerf, soapysdr-module-bladerf,
+  hackrf, soapysdr-module-hackrf, uhd-host, uhd-soapysdr, soapysdr-module-uhd, airspy, soapysdr-module-airspy,
+  limesuite, soapysdr-module-lms7, gr-osmosdr
+Description: HSL (Herzliya Space Laboratory) GnuRadio out-of-tree module
+  This provides blocks used for satellite communications by HSL, these include
+  doppler correction, kiss encoding, afsk and bpsk modulators and demodulators, etc...
