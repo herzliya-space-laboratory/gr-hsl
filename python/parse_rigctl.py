@@ -61,8 +61,8 @@ class parse_rigctl(gr.basic_block):
             print("[Doppler Correction] Verbose")
             print()
             print("Recieved frequency command with frequency: " + str(message_freq))
-            print("Output is: " + str(message_freq-self.base_freq))
-        self.message_port_pub(pmt.intern('freq'), pmt.from_double(message_freq-self.base_freq))
+            print("Output is: " + str(self.base_freq-message_freq))
+        self.message_port_pub(pmt.intern('freq'), pmt.from_double(self.base_freq-message_freq))
 
     def get_base_freq(self):
         return self.base_freq
